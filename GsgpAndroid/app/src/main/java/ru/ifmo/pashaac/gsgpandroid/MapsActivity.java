@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng marker;
     private SeekBar seekBar;
     private Button button;
+    private ProgressBar progressBar;
     private TouristRouteController touristRouteController;
 
     private boolean noPermission() {
@@ -79,15 +81,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        progressBar = findViewById(R.id.progressBar);
+
         button = findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                touristRouteController.setLat(marker.latitude);
-                touristRouteController.setLng(marker.longitude);
-                touristRouteController.setTime(Double.parseDouble(textView.getText().toString()));
-                touristRouteController.reset();
-                touristRouteController.start();
+                if (progressBar.getVisibility() != View.VISIBLE) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    touristRouteController.setLat(marker.latitude);
+                    touristRouteController.setLng(marker.longitude);
+                    touristRouteController.setTime(Double.parseDouble(textView.getText().toString()));
+                    touristRouteController.setProgressBar(progressBar);
+                    touristRouteController.reset();
+                    touristRouteController.start();
+                }
             }
         });
 

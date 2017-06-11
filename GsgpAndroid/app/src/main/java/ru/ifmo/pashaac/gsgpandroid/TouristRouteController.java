@@ -1,5 +1,8 @@
 package ru.ifmo.pashaac.gsgpandroid;
 
+import android.view.View;
+import android.widget.ProgressBar;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -32,6 +35,7 @@ public class TouristRouteController implements Callback<List<Attraction>> {
     private double lng;
     private double time;
 
+    private ProgressBar progressBar;
     private GoogleMap googleMap;
 
     private List<Marker> drawAttractions = new ArrayList<>();
@@ -69,6 +73,7 @@ public class TouristRouteController implements Callback<List<Attraction>> {
                 polylineOptions.add(new LatLng(attraction.getLocation().getLatitude(), attraction.getLocation().getLongitude()));
             }
             polyline = googleMap.addPolyline(polylineOptions);
+            progressBar.setVisibility(View.INVISIBLE);
         } else {
             System.out.println(response.errorBody());
         }
@@ -95,6 +100,10 @@ public class TouristRouteController implements Callback<List<Attraction>> {
 
     public void setTime(double time) {
         this.time = time;
+    }
+
+    public void setProgressBar(ProgressBar progressBar) {
+        this.progressBar = progressBar;
     }
 
     @Override
